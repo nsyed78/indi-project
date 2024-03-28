@@ -178,7 +178,6 @@ We are using inverted logic as we are using voltage and the GPIO inputs only on 
 
 ![A circuit board with wires](https://github.com/nsyed78/indi-project/blob/e0fd7812db3b28970bc8d8ce9f8de86bfa10c307/Schematics/3.jpg)
 
-#========== SETUP FOR DIMMING LIGHT BASED ON LUX
 ```
 #========== SETUP FOR DIMMING LIGHT BASED ON LUX
 # We are using a single input to light up two LEDs
