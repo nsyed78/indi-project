@@ -104,7 +104,7 @@ We are using **BH1750 sensor** for measuring the lux value. The connection utili
 |3|SCK|SCL|
 |4|SDA|SDA|
 
-![](https://github.com/nsyed78/indi-project/blob/b65fef175164fd34bc535eaa4ea048b627dca16e/Schematics/1.%20BH1750_bb.jpg)
+![](https://github.com/nsyed78/indi-project/blob/e0fd7812db3b28970bc8d8ce9f8de86bfa10c307/Schematics/1.jpg)
 
 **CODE:**
 
@@ -141,7 +141,7 @@ We are using **BMP280 sensor** for measuring the temperature and pressure. We ar
 |3|SCK|SCK|
 |4|SDA|SDI|
 
-![](https://github.com/nsyed78/indi-project/blob/31a3dcf9c882963c4ce3d014bac9c84670fb6dba/Schematics/2.%20Change%20LED%20BH1750_bb.jpg)
+![](https://github.com/nsyed78/indi-project/blob/e0fd7812db3b28970bc8d8ce9f8de86bfa10c307/Schematics/2.jpg)
 
 **CODE:**
 ```
@@ -176,7 +176,7 @@ We are using inverted logic as we are using voltage and the GPIO inputs only on 
 |1|3\.3V |Positive side with a 220 Ohm Resistor|
 |21|w12|Using 2 LEDs from the same GPIO|
 
-![A circuit board with wires](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.003.jpeg)
+![A circuit board with wires](https://github.com/nsyed78/indi-project/blob/e0fd7812db3b28970bc8d8ce9f8de86bfa10c307/Schematics/3.jpg)
 
 #========== SETUP FOR DIMMING LIGHT BASED ON LUX
 ```
@@ -231,7 +231,7 @@ We are using two push down buttons to change the initial lux value that the sens
 |26|W16|Using 2 LEDs from the same GPIO|
 |6|GND|Using jumpers to use the same GND we are using for the sensors|
 
-![](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.004.jpeg)
+![](https://github.com/nsyed78/indi-project/blob/e0fd7812db3b28970bc8d8ce9f8de86bfa10c307/Schematics/4.jpg)
 ##
 **CODE:** 
 The following code is used to setup and change the values for the temperature and the pressure once pressed. 
@@ -294,7 +294,7 @@ If the temperature is above 25•C the motor starts spinning, or else the motor 
 |6|GND|GND|
 |3|SCK|SCK|
 
-![](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.005.jpeg)
+![](https://github.com/nsyed78/indi-project/blob/e0fd7812db3b28970bc8d8ce9f8de86bfa10c307/Schematics/5.jpg)
 <a name="_toc162477370"></a>b.Adding ULN2003:*
 
 ----------------------------------------------
@@ -308,12 +308,12 @@ If the temperature is above 25•C the motor starts spinning, or else the motor 
 |10|w4|IN3|
 |11|w5|IN4|
 
-![](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.006.jpeg)
+![](https://github.com/nsyed78/indi-project/blob/e0fd7812db3b28970bc8d8ce9f8de86bfa10c307/Schematics/6.jpg)
 
 ### <a name="_toc162477371"></a>c.Adding Stepper Motor:
 By using the ULN2003 we are connecting the stepper motor.
 
-![](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.007.jpeg)
+![](https://github.com/nsyed78/indi-project/blob/e0fd7812db3b28970bc8d8ce9f8de86bfa10c307/Schematics/7.jpg)
 
 **CODE:**
 
@@ -379,7 +379,7 @@ The connections to the LCD are as follows:
 |12|w6|LIGHT|
 |6|GND|GND|
 
-![](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.008.jpeg)
+![](https://github.com/nsyed78/indi-project/blob/e0fd7812db3b28970bc8d8ce9f8de86bfa10c307/Schematics/8.jpg)
 
 **CODE:** 
 
