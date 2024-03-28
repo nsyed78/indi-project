@@ -141,7 +141,7 @@ We are using **BMP280 sensor** for measuring the temperature and pressure. We ar
 |3|SCK|SCK|
 |4|SDA|SDI|
 
-![](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.002.jpeg)
+![](https://github.com/nsyed78/indi-project/blob/31a3dcf9c882963c4ce3d014bac9c84670fb6dba/Schematics/2.%20Change%20LED%20BH1750_bb.jpg)
 
 **CODE:**
 ```
