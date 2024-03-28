@@ -89,7 +89,7 @@ import wiringpi
 
 import spidev
 
-from class\_LCD import LCD, ActivateLCD,DeactivateLCD
+from class_LCD import LCD, ActivateLCD,DeactivateLCD
 
 import sys
 ```
@@ -107,40 +107,27 @@ We are using **BH1750 sensor** for measuring the lux value. The connection utili
 ![](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.001.jpeg)
 
 **CODE:**
-```
+
 To initialize the sensor
-
-\# ================== BH1750 SENSOR ===========
-
-address\_bh170 = *0x*23
-
-bus.write\_byte(address\_bh170, *0x*10)
-
-bytes\_read = bytearray(2)
+```
+# ================== BH1750 SENSOR ===========
+address_bh170 = 0x23
+bus.write_byte(address_bh170, 0x10)
+bytes_read = bytearray(2)
 
 #============= Get value from the BH1750 
+def get_value(bus, address):
+    write = i2c_msg.write(address, [0x10])
+    read = i2c_msg.read(address, 2)
+    bus.i2c_rdwr(write, read)
+    bytes_read = list(read)
+    # Corrected formula to calculate lux
+    return (bytes_read[0] << 8 | bytes_read[1]) / 1.2
 
-*def* get\_value(*bus*, *address*):
-
-`    `write = i2c\_msg.write(*address*, [*0x*10])
-
-`    `read = i2c\_msg.read(*address*, 2)
-
-`    `*bus*.i2c\_rdwr(write, read)
-
-`    `bytes\_read = list(read)
-
-`    `# Corrected formula to calculate lux
-
-`    `return (bytes\_read[0] << 8 | bytes\_read[1]) / 1.2
-
-` `while True:
-
-`      `# Measure temperature and pressure from BMP280
-
-`      `lux = get\_value(bus, address\_bh170)
-
-`	 `print(lux)
+ while True:
+      # Measure temperature and pressure from BMP280
+      lux = get_value(bus, address_bh170)
+	 print(lux)
 
 ```
 
@@ -158,27 +145,19 @@ We are using **BMP280 sensor** for measuring the temperature and pressure. We ar
 
 **CODE:**
 ```
-\# Create an I2C bus object
-
+# Create an I2C bus object
 bus = SMBus(0)
+address = 0x76
 
-address = *0x*76
-
-\# Setup BMP280
-
-bmp280 = BMP280(*i2c\_addr*= address, *i2c\_dev*=bus)
-
+# Setup BMP280
+bmp280 = BMP280(i2c_addr= address, i2c_dev=bus)
 interval = 1 # Sample period in seconds
 
 while True:
-
-`    `# Measure data
-
-`    `bmp280\_temperature = bmp280.get\_temperature()
-
-`    `bmp280\_pressure = bmp280.get\_pressure()
-
-`    `print("Temperature: %4.1f, Pressure: %4.1f" % (bmp280\_temperature, bmp280\_pressure))
+    # Measure data
+    bmp280_temperature = bmp280.get_temperature()
+    bmp280_pressure = bmp280.get_pressure()
+    print("Temperatur
 
 ```
 ## <a name="_toc162477366"></a>3. Controlling PWM LED intensity:
