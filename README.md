@@ -74,7 +74,7 @@ We are using the following libraries from python:
 - Spidev for Nokia LCD
 
 These are all the libraries that we are using for this whole project;
-
+```
 import time
 
 import datetime
@@ -92,7 +92,7 @@ import spidev
 from class\_LCD import LCD, ActivateLCD,DeactivateLCD
 
 import sys
-
+```
 # <a name="_toc162477363"></a>**System architecture & Setup**
 ## <a name="_toc162477364"></a>1. Measuring Light Intensity (Lux):
 We are using **BH1750 sensor** for measuring the lux value. The connection utilizes a breadboard.
@@ -107,7 +107,7 @@ We are using **BH1750 sensor** for measuring the lux value. The connection utili
 ![](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.001.jpeg)
 
 **CODE:**
-
+```
 To initialize the sensor
 
 \# ================== BH1750 SENSOR ===========
@@ -142,7 +142,7 @@ bytes\_read = bytearray(2)
 
 `	 `print(lux)
 
-
+```
 
 ## <a name="_toc162477365"></a>2. Measuring Temperature and Pressure:
 We are using **BMP280 sensor** for measuring the temperature and pressure. We are using Jumpers to connect the sensor with the same pins used for BH1750 sensor.
@@ -157,7 +157,7 @@ We are using **BMP280 sensor** for measuring the temperature and pressure. We ar
 ![](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.002.jpeg)
 
 **CODE:**
-
+```
 \# Create an I2C bus object
 
 bus = SMBus(0)
@@ -180,7 +180,7 @@ while True:
 
 `    `print("Temperature: %4.1f, Pressure: %4.1f" % (bmp280\_temperature, bmp280\_pressure))
 
-
+```
 ## <a name="_toc162477366"></a>3. Controlling PWM LED intensity:
 By integrating the PWM LED with the BH1750 we are creating an imitation where we adjust the intensity of PWM LED based on how much lux value the sensor reads.
 
@@ -200,7 +200,7 @@ We are using inverted logic as we are using voltage and the GPIO inputs only on 
 ![A circuit board with wires](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.003.jpeg)
 
 #========== SETUP FOR DIMMING LIGHT BASED ON LUX
-
+```
 \# We are using a single input to light up two LEDs
 
 luxPins = 12
@@ -265,7 +265,7 @@ We are using the following code in the while loop to change the brightness of th
 
 `        `current\_brightness = target\_brightness
 
-
+```
 ## <a name="_toc162477367"></a>4. Changing the Lux value based on input from push down buttons:
 We are using two push down buttons to change the initial lux value that the sensor reads by 50. We are only using ground wire and GPIO inputs on the buttons for this. One side is connected to the ground wire and the other is connected to GPIO inputs for controlling the function of the buttons.
 
@@ -278,7 +278,7 @@ We are using two push down buttons to change the initial lux value that the sens
 ![](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.004.jpeg)
 ##
 **CODE:** 
-
+```
 The following code is used to setup and change the values for the temperature and the pressure once pressed. 
 
 \# These buttons would change the lux and temperature value when pressed
@@ -352,7 +352,7 @@ In the final loop we reassign the values for the lux and the temperature via the
 `        `lux = changeLux(lux, pushBtns)  
 
 `        `temperature = changeTemp(temperature, pushBtns)  
-
+```
 ## <a name="_toc162477368"></a>5. Controlling the stepper motor based on temperature:
 By using the BMP280, ULN2003 Stepper Motor Controller and Stepper Motor we are trying to imitate a fan that would spin based on the temperature reading from the sensor.
 
@@ -391,7 +391,7 @@ By using the ULN2003 we are connecting the stepper motor.
 **CODE:**
 
 We are using the following code to run the stepper motor. We initialize the pins and define the step function. The rotate\_stepper functions define the sequence to rotate the motor
-
+```
 \# ============== GPIOs STEPPER MOTOR ==========
 
 pins = [2, 7, 4, 5]  # Define GPIO pins connected to stepper motor coils
@@ -450,7 +450,7 @@ In the final loop we define the temperature threshold and simply run the rotate\
 
 `            `rotate\_stepper(pins, *steps*=256, *delay*=0.01)
 
-
+```
 
 ## <a name="_toc162477372"></a>6. Adding Nokia 5110 LCD:
 As a last step to enhance the project we are using a Nokia 5110 LCD to display the values on the screen for better readability.
@@ -475,7 +475,7 @@ The connections to the LCD are as follows:
 **CODE:** 
 
 We define the GPIO pins and initialize the LCD. 
-
+```
 PINS = {
 
 `    `'RST' : 10,
@@ -525,7 +525,7 @@ In the final loop we have the following code to print on the screen
 `        `lcd\_1.refresh() # update the LCD with the buffer
 
 `        `DeactivateLCD(PINS['CS'])
-
+```
 ## <a name="_toc162477373"></a>7. Using MQTT for ThingSpeak:
 By using the MQTT we are able to send the data from the sensors to an online dashboard that is ThingSpeak.
 
@@ -534,7 +534,7 @@ By using the MQTT we are able to send the data from the sensors to an online das
 Description automatically generated](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.009.png)
 
 The code is as follows:
-
+```
 \# MQTT settings
 
 MQTT\_HOST ="mqtt3.thingspeak.com"
@@ -607,7 +607,7 @@ In the final loop we are pushing the payload to the ThingSpeak
 
 `            `client.reconnect()
 
-
+```
 # <a name="_toc162477374"></a>**APPENDICES**
 ### <a name="_toc162477375"></a>Project Code: https://github.com/nsyed78/indi-project
 ### <a name="_toc162477376"></a>Youtube Video:  
