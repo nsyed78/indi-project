@@ -104,7 +104,7 @@ We are using **BH1750 sensor** for measuring the lux value. The connection utili
 |3|SCK|SCL|
 |4|SDA|SDA|
 
-![](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.001.jpeg)
+![](https://github.com/nsyed78/indi-project/blob/b65fef175164fd34bc535eaa4ea048b627dca16e/Schematics/1.%20BH1750_bb.jpg)
 
 **CODE:**
 
