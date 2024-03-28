@@ -180,69 +180,46 @@ We are using inverted logic as we are using voltage and the GPIO inputs only on 
 
 #========== SETUP FOR DIMMING LIGHT BASED ON LUX
 ```
-\# We are using a single input to light up two LEDs
+#========== SETUP FOR DIMMING LIGHT BASED ON LUX
+# We are using a single input to light up two LEDs
 
 luxPins = 12
-
-current\_brightness = 100
-
+current_brightness = 100
 wiringpi.softPwmCreate(luxPins, 0, 100)
-
 wiringpi.softPwmWrite(luxPins, 100)
 
-\# Change brightness automatically based on the lux value
+# Change brightness automatically based on the lux value
+def calculate_brightness(lux):
+    if lux is None:
+        return 100  # Default to off (inverted logic) if there's a reading error
+    elif lux < 50:
+        return 0    # Full brightness (inverted logic)
+    elif 100 <= lux <= 200:
+        return 70   # Medium brightness (inverted logic)
+    elif lux > 200:
+        return 100  # LED off (inverted logic)
+    else:
+        return 100  # Ensure function returns an integer for unexpected lux values
 
-*def* calculate\_brightness(*lux*):
-
-`    `if *lux* is None:
-
-`        `return 100  # Default to off (inverted logic) if there's a reading error
-
-`    `elif *lux* < 50:
-
-`        `return 0    # Full brightness (inverted logic)
-
-`    `elif 100 <= *lux* <= 200:
-
-`        `return 70   # Medium brightness (inverted logic)
-
-`    `elif *lux* > 200:
-
-`        `return 100  # LED off (inverted logic)
-
-`    `else:
-
-`        `return 100  # Ensure function returns an integer for unexpected lux values
-
-\# PWM
-
-*def* controlLEDs(*sig1*, *target\_brightness*, *current\_brightness*, *step*=1, *wait*=0.01):
-
-`    `if *target\_brightness* < *current\_brightness*:
-
-`        `for brightness in range(*current\_brightness*, *target\_brightness* - 1, -*step*):
-
-`            `wiringpi.softPwmWrite(*sig1*, brightness)
-
-`            `time.sleep(*wait*)
-
-`    `elif *target\_brightness* > *current\_brightness*:
-
-`        `for brightness in range(*current\_brightness*, *target\_brightness* + 1, *step*):
-
-`            `wiringpi.softPwmWrite(*sig1*, brightness)
-
-`            `time.sleep(*wait*)
+# PWM
+def controlLEDs(sig1, target_brightness, current_brightness, step=1, wait=0.01):
+    if target_brightness < current_brightness:
+        for brightness in range(current_brightness, target_brightness - 1, -step):
+            wiringpi.softPwmWrite(sig1, brightness)
+            time.sleep(wait)
+    elif target_brightness > current_brightness:
+        for brightness in range(current_brightness, target_brightness + 1, step):
+            wiringpi.softPwmWrite(sig1, brightness)
+            time.sleep(wait)
+```
 
 We are using the following code in the while loop to change the brightness of the LED
 
-\# Change Brightness based on Lux
-
-`        `target\_brightness = calculate\_brightness(lux)
-
-`        `controlLEDs(luxPins, target\_brightness, current\_brightness, *step*=5)  # Adjust step size as needed
-
-`        `current\_brightness = target\_brightness
+```
+# Change Brightness based on Lux
+        target_brightness = calculate_brightness(lux)
+        controlLEDs(luxPins, target_brightness, current_brightness, step=5)  # Adjust step size as needed
+        current_brightness = target_brightness
 
 ```
 ## <a name="_toc162477367"></a>4. Changing the Lux value based on input from push down buttons:
@@ -257,80 +234,51 @@ We are using two push down buttons to change the initial lux value that the sens
 ![](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da546a9445.004.jpeg)
 ##
 **CODE:** 
-```
 The following code is used to setup and change the values for the temperature and the pressure once pressed. 
+```
+# These buttons would change the lux and temperature value when pressed
 
-\# These buttons would change the lux and temperature value when pressed
+def setup(button):
+    wiringpi.wiringPiSetup()  # Initialize wiringPi setup
+    wiringpi.pinMode(button, wiringpi.INPUT)  # Set pin to input mode
+    wiringpi.pullUpDnControl(button, wiringpi.PUD_UP)  # Enable pull-up resistor
 
-*def* setup(*button*):
-
-`    `wiringpi.wiringPiSetup()  # Initialize wiringPi setup
-
-`    `wiringpi.pinMode(button, wiringpi.INPUT)  # Set pin to input mode
-
-`    `wiringpi.pullUpDnControl(button, wiringpi.PUD\_UP)  # Enable pull-up resistor
-
-\# Buttons for changing lux
-
+# Buttons for changing lux
 pushBtns = [16, 15]
-
 for button in pushBtns:
+    setup(button)
 
-`    `setup(button)
+# ================ FUNCTIONS TO CHANGE THE VALUES FOR LUX AND TEMPERATURE
+# Change lux values
+def changeLux(l, btn):
+    for index, button in enumerate(btn):
+        if wiringpi.digitalRead(button) == wiringpi.LOW:
+            if index == 0:
+                l += 50
+            elif index == 1:
+                l -= 50
+            print(f"Button {index + 1} Pressed! Adjusted Light Level: {l} lux")
+            time.sleep(0.1)  # Simple debounce
+    return l
 
-\# ================ FUNCTIONS TO CHANGE THE VALUES FOR LUX AND TEMPERATURE
-
-\# Change lux values
-
-*def* changeLux(*l*, *btn*):
-
-`    `for index, button in enumerate(btn):
-
-`        `if wiringpi.digitalRead(button) == wiringpi.LOW:
-
-`            `if index == 0:
-
-`                `l += 50
-
-`            `elif index == 1:
-
-`                `l -= 50
-
-`            `print(*f*"Button {index + 1} Pressed! Adjusted Light Level: {l} lux")
-
-`            `time.sleep(0.1)  # Simple debounce
-
-`    `return l
-
-\# Change temperature values
-
-*def* changeTemp(*l*, *btn*):
-
-`    `for index, button in enumerate(btn):
-
-`        `if wiringpi.digitalRead(button) == wiringpi.LOW:
-
-`            `if index == 0:
-
-`                `l += 1.5
-
-`            `elif index == 1:
-
-`                `l -= 1.5
-
-`            `print(*f*"Button {index + 1} Pressed! Adjusted Temp Value: {l} lux")
-
-`            `time.sleep(0.1)  # Simple debounce
-
-`    `return l
+# Change temperature values
+def changeTemp(l, btn):
+    for index, button in enumerate(btn):
+        if wiringpi.digitalRead(button) == wiringpi.LOW:
+            if index == 0:
+                l += 1.5
+            elif index == 1:
+                l -= 1.5
+            print(f"Button {index + 1} Pressed! Adjusted Temp Value: {l} lux")
+            time.sleep(0.1)  # Simple debounce
+    return l
+```
 
 In the final loop we reassign the values for the lux and the temperature via these functions and the code is as follows
-
-`        `# Adjust lux based on button press
-
-`        `lux = changeLux(lux, pushBtns)  
-
-`        `temperature = changeTemp(temperature, pushBtns)  
+```	
+        # Adjust lux based on button press
+        lux = changeLux(lux, pushBtns)  
+        temperature = changeTemp(temperature, pushBtns)   
 ```
 ## <a name="_toc162477368"></a>5. Controlling the stepper motor based on temperature:
 By using the BMP280, ULN2003 Stepper Motor Controller and Stepper Motor we are trying to imitate a fan that would spin based on the temperature reading from the sensor.
@@ -371,64 +319,46 @@ By using the ULN2003 we are connecting the stepper motor.
 
 We are using the following code to run the stepper motor. We initialize the pins and define the step function. The rotate\_stepper functions define the sequence to rotate the motor
 ```
-\# ============== GPIOs STEPPER MOTOR ==========
+# ============== GPIOs STEPPER MOTOR ==========
 
-pins = [2, 7, 4, 5]  # Define GPIO pins connected to stepper motor coils
+pins = [2, 7, 4, 5]  # Define GPIO pins connected to stepper motor coils
 
-\# Setup stepper motor
+# Setup stepper motor
+def setupStepperMotor(pins):
+    wiringpi.wiringPiSetup()
+    for pin in pins:
+        wiringpi.pinMode(pin, 1)  # Set pin to output mode
 
-*def* setupStepperMotor(*pins*):
+# Step function
+def step(pins, sequence, delay):
+    for coil in sequence:
+        for pin in range(4):  # Assuming a 4-pin stepper motor
+            wiringpi.digitalWrite(pins[pin], coil[pin])
+        time.sleep(delay)
 
-`    `wiringpi.wiringPiSetup()
+# Main function to rotate the stepper motor
+def rotate_stepper(pins, steps, delay):
+    # Define the step sequence for full stepping
+    sequence = [[1,0,0,0],
+                [0,1,0,0],
+                [0,0,1,0],
+                [0,0,0,1]]
 
-`    `for pin in *pins*:
+    for _ in range(steps):
+        for coil_state in sequence:
+            step(pins, [coil_state], delay)
 
-`        `wiringpi.pinMode(pin, 1)  # Set pin to output mode
+    # Reset the pins to low
+    for pin in pins:
+        wiringpi.digitalWrite(pin, 0)
 
-\# Step function
-
-*def* step(*pins*, *sequence*, *delay*):
-
-`    `for coil in *sequence*:
-
-`        `for pin in range(4):  # Assuming a 4-pin stepper motor
-
-`            `wiringpi.digitalWrite(*pins*[pin], coil[pin])
-
-`        `time.sleep(*delay*)
-
-\# Main function to rotate the stepper motor
-
-*def* rotate\_stepper(*pins*, *steps*, *delay*):
-
-`    `# Define the step sequence for full stepping
-
-`    `sequence = [[1,0,0,0],
-
-`                `[0,1,0,0],
-
-`                `[0,0,1,0],
-
-`                `[0,0,0,1]]
-
-`    `for \_ in range(*steps*):
-
-`        `for coil\_state in sequence:
-
-`            `step(*pins*, [coil\_state], *delay*)
-
-`    `# Reset the pins to low
-
-`    `for pin in *pins*:
-
-`        `wiringpi.digitalWrite(pin, 0)
+```
 
 In the final loop we define the temperature threshold and simply run the rotate\_stepper function.
 
-`        `if temperature > 24:
-
-`            `rotate\_stepper(pins, *steps*=256, *delay*=0.01)
-
+```
+	if temperature > 24:
+            rotate_stepper(pins, steps=256, delay=0.01)
 ```
 
 ## <a name="_toc162477372"></a>6. Adding Nokia 5110 LCD:
@@ -456,54 +386,35 @@ The connections to the LCD are as follows:
 We define the GPIO pins and initialize the LCD. 
 ```
 PINS = {
-
-`    `'RST' : 10,
-
-`    `'CS' : 13, # CE
-
-`    `'DC' : 9, # D/C
-
-`    `'DIN' : 11,
-
-`    `'SCLK' : 14, # CLK
-
-`    `'LED' : 6, # LIGHT
-
+    'RST' : 10,
+    'CS' : 13, # CE
+    'DC' : 9, # D/C
+    'DIN' : 11,
+    'SCLK' : 14, # CLK
+    'LED' : 6, # LIGHT
 }
 
 wiringpi.wiringPiSetup()
-
 wiringpi.wiringPiSPISetupMode(1, 0, 400000, 0) # (channel, port, speed, mode)
-
 wiringpi.pinMode(PINS['CS'] , 1) # set pin to mode 1 (output)
-
 ActivateLCD(PINS['CS'])
-
-lcd\_1 = LCD(PINS)
-
+lcd_1 = LCD(PINS)
+```
 In the final loop we have the following code to print on the screen
+```
+   # LCD setup
+        ActivateLCD(PINS['CS'])
+        lcd_1.clear() # clear buffer
+        lcd_1.go_to_xy(0, 10) # starting position
 
-`   `# LCD setup
+        lcd_1.put_string(f'Lux:{lux:.2f}') # print to buffer
+        lcd_1.put_string(f'\n')
+        lcd_1.put_string(f'Temp:{temperature:.2f}') 
+        
+        # print to buffer
+        lcd_1.refresh() # update the LCD with the buffer
+        DeactivateLCD(PINS['CS'])
 
-`        `ActivateLCD(PINS['CS'])
-
-`        `lcd\_1.clear() # clear buffer
-
-`        `lcd\_1.go\_to\_xy(0, 10) # starting position
-
-`        `lcd\_1.put\_string(*f*'Lux:{lux*:.2f*}') # print to buffer
-
-`        `lcd\_1.put\_string(*f*'\n')
-
-`        `lcd\_1.put\_string(*f*'Temp:{temperature*:.2f*}') 
-
-
-
-`        `# print to buffer
-
-`        `lcd\_1.refresh() # update the LCD with the buffer
-
-`        `DeactivateLCD(PINS['CS'])
 ```
 ## <a name="_toc162477373"></a>7. Using MQTT for ThingSpeak:
 By using the MQTT we are able to send the data from the sensors to an online dashboard that is ThingSpeak.
@@ -514,94 +425,51 @@ Description automatically generated](Aspose.Words.04d05ddc-71cb-4dd7-8e0d-b1da54
 
 The code is as follows:
 ```
-\# MQTT settings
+# MQTT settings
+MQTT_HOST ="mqtt3.thingspeak.com"
+MQTT_PORT = 1883
+MQTT_KEEPALIVE_INTERVAL =60
+MQTT_TOPIC = "channels/2484833/publish"
+MQTT_CLIENT_ID ="FQkPGzofGCkOLAYWNi89Oi0"
+MQTT_USER ="FQkPGzofGCkOLAYWNi89Oi0"
+MQTT_PWD = "6DEoGgDNIci62NMCQ6ckfoUP"
 
-MQTT\_HOST ="mqtt3.thingspeak.com"
+# MQTT error handling
+def on_connect(client, userdata, flags, rc):
+    if rc==0:
+        print("Connected OK with result code "+str(rc))
+    else:
+        print("Bad connection with result code "+str(rc))
 
-MQTT\_PORT = 1883
+def on_disconnect(client, userdata, flags, rc=0):
+    print("Disconnected result code "+str(rc))
 
-MQTT\_KEEPALIVE\_INTERVAL =60
+def on_message(client,userdata,msg):
+    print("Received a message on topic: " + msg.topic + "; message: " + msg.payload)
 
-MQTT\_TOPIC = "channels/2484833/publish"
+# Set up a MQTT Client
+client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, MQTT_CLIENT_ID)
+client.username_pw_set(MQTT_USER, MQTT_PWD)
 
-MQTT\_CLIENT\_ID ="FQkPGzofGCkOLAYWNi89Oi0"
-
-MQTT\_USER ="FQkPGzofGCkOLAYWNi89Oi0"
-
-MQTT\_PWD = "6DEoGgDNIci62NMCQ6ckfoUP"
-
-\# MQTT error handling
-
-*def* on\_connect(*client*, *userdata*, *flags*, *rc*):
-
-`    `if *rc*==0:
-
-`        `print("Connected OK with result code "+str(*rc*))
-
-`    `else:
-
-`        `print("Bad connection with result code "+str(*rc*))
-
-*def* on\_disconnect(*client*, *userdata*, *flags*, *rc*=0):
-
-`    `print("Disconnected result code "+str(*rc*))
-
-*def* on\_message(*client*,*userdata*,*msg*):
-
-`    `print("Received a message on topic: " + *msg*.topic + "; message: " + *msg*.payload)
-
-\# Set up a MQTT Client
-
-client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1, MQTT\_CLIENT\_ID)
-
-client.username\_pw\_set(MQTT\_USER, MQTT\_PWD)
-
-\# Connect callback handlers to client
-
-client.on\_connect= on\_connect
-
-client.on\_disconnect= on\_disconnect
-
-client.on\_message= on\_message
-
-print("Attempting to connect to %s" % MQTT\_HOST)
-
-client.connect(MQTT\_HOST, MQTT\_PORT)
-
-client.loop\_start() #start the loop
-
+# Connect callback handlers to client
+client.on_connect= on_connect
+client.on_disconnect= on_disconnect
+client.on_message= on_message
+print("Attempting to connect to %s" % MQTT_HOST)
+client.connect(MQTT_HOST, MQTT_PORT)
+client.loop_start() #start the loop
+```
 In the final loop we are pushing the payload to the ThingSpeak
-
-`        `# === MQTT DATA SEND
-
-`        `MQTT\_DATA = "field1="+str(lux)+"&field2="+str(temperature)+"&field3="+str(pressure)+"&status=MQTTPUBLISH"
-
-`        `try:
-
-`            `client.publish(*topic*=MQTT\_TOPIC, *payload*=MQTT\_DATA, *qos*=0, *retain*=False, *properties*=None)
-
-`            `time.sleep(interval)
-
-`        `except OSError:
-
-`            `client.reconnect()
-
+```
+        # === MQTT DATA SEND
+        MQTT_DATA = "field1="+str(lux)+"&field2="+str(temperature)+"&field3="+str(pressure)+"&status=MQTTPUBLISH"
+        try:
+            client.publish(topic=MQTT_TOPIC, payload=MQTT_DATA, qos=0, retain=False, properties=None)
+            time.sleep(interval)
+        except OSError:
+            client.reconnect()
 ```
 # <a name="_toc162477374"></a>**APPENDICES**
-### <a name="_toc162477375"></a>Project Code: https://github.com/nsyed78/indi-project
 ### <a name="_toc162477376"></a>Youtube Video:  
-
-
-# <a name="_toc162477377"></a>**SELF EVALUATION**
-
-|**Item**|**Max**|**My score**|**Motivation**|
-| :- | :- | :- | :- |
-|Data on terminal|2|2||
-|Data on dashboard|4|4||
-|Set goals|2|2||
-|Control light|4|4||
-|Control temperature|4|4||
-|Close the loop|4|4||
-|**Total**|**20**|**20**||
 
 
