@@ -295,7 +295,7 @@ If the temperature is above 25•C the motor starts spinning, or else the motor 
 |3|SCK|SCK|
 
 ![](https://github.com/nsyed78/indi-project/blob/e0fd7812db3b28970bc8d8ce9f8de86bfa10c307/Schematics/5.jpg)
-<a name="_toc162477370"></a>b.Adding ULN2003:*
+### <a name="_toc162477370"></a>b.Adding ULN2003:*
 
 ----------------------------------------------
 
