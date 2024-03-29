@@ -1,8 +1,8 @@
 
 # Table of Contents
-[**PROJECT OVERVIEW**	2](#_toc162477358)
+[**PROJECT OVERVIEW**](#_toc162477358)
 
-[Goals and Objectives:	2](#_toc162477359)
+[Goals and Objectives:](#_toc162477359)
 
 [**Hardware and Software used**](#_toc162477360)
 
@@ -22,11 +22,11 @@
 
 [5. Controlling the stepper motor based on temperature:](#_toc162477368)
 
-[a.BMP280 connection:](#_toc162477369)
+[	a.BMP280 connection:](#_toc162477369)
 
-[b.Adding ULN2003:](#_toc162477370)
+[	b.Adding ULN2003:](#_toc162477370)
 
-[c.Adding Stepper Motor:](#_toc162477371)
+[	c.Adding Stepper Motor:](#_toc162477371)
 
 [6. Adding Nokia 5110 LCD:](#_toc162477372)
 
