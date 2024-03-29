@@ -36,9 +36,9 @@
 
 [**APPENDICES**	20](#_toc162477374)
 
-[Project Code: https://github.com/nsyed78/indi-project](#_toc162477375)
-
 [Youtube Video:](#_toc162477376)
+
+[RESOURCES: ](#_toc162477377)
 
 
 
@@ -481,5 +481,8 @@ except KeyboardInterrupt:
 ```
 # <a name="_toc162477374"></a>**APPENDICES**
 ### <a name="_toc162477376"></a>Youtube Video:  https://youtu.be/uc8oMEXdKZ0
+# <a name="_toc162477377"></a>**RESOURCES**
+1) Google
+2) ChatGPT for code improvement
 
 
