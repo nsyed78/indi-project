@@ -464,6 +464,19 @@ In the final loop we are pushing the payload to the ThingSpeak
         except OSError:
             client.reconnect()
 ```
+## <a name="_toc162477377"></a>8. Using MQTT for ThingSpeak:
+We can use the following code to close the loop automatically. We will take a number on how many times the user wants to run the program and based on that we would shutdown the implementation. 
+```
+try: 
+ t = int(input('How many times you want to run the program')) 
+ while t>0: 
+  # Rest of the code goes here 
+
+ 
+
+except KeyboardInterrupt: 
+ #Rest of the code goes here 
+```
 # <a name="_toc162477374"></a>**APPENDICES**
 ### <a name="_toc162477376"></a>Youtube Video:  https://youtu.be/uc8oMEXdKZ0
 
