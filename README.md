@@ -416,7 +416,7 @@ In the final loop we have the following code to print on the screen
 ## <a name="_toc162477373"></a>7. Using MQTT for ThingSpeak:
 By using the MQTT we are able to send the data from the sensors to an online dashboard that is ThingSpeak.
 
-![ThingSpeak Dashboard](https://github.com/nsyed78/indi-project/blob/e0fd7812db3b28970bc8d8ce9f8de86bfa10c307/Schematics/9.png)
+![ThingSpeak Dashboard](https://github.com/nsyed78/indi-project/blob/158066bde3c432853d934a9fcb9b35a62b1f71bf/Schematics/9.png)
 
 The code is as follows:
 ```
