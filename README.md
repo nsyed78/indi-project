@@ -31,6 +31,7 @@
 [6. Adding Nokia 5110 LCD:](#_toc162477372)
 
 [7. Using MQTT for ThingSpeak:](#_toc162477373)
+
 [7. Closing the loop:](#_toc162477376)
 
 [**APPENDICES**	20](#_toc162477374)
