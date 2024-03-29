@@ -4,41 +4,39 @@
 
 [Goals and Objectives:	2](#_toc162477359)
 
-[**Hardware and Software used**	2](#_toc162477360)
+[**Hardware and Software used**](#_toc162477360)
 
-[Hardware:	2](#_toc162477361)
+[Hardware:](#_toc162477361)
 
-[Software, Libraries, and Protocols:	2](#_toc162477362)
+[Software, Libraries, and Protocols:](#_toc162477362)
 
-[**System architecture & Setup**	3](#_toc162477363)
+[**System architecture & Setup**](#_toc162477363)
 
-[1. Measuring Light Intensity (Lux):	3](#_toc162477364)
+[1. Measuring Light Intensity (Lux):](#_toc162477364)
 
-[2. Measuring Temperature and Pressure:	5](#_toc162477365)
+[2. Measuring Temperature and Pressure:](#_toc162477365)
 
-[3. Controlling PWM LED intensity:	7](#_toc162477366)
+[3. Controlling PWM LED intensity:](#_toc162477366)
 
-[4. Changing the Lux value based on input from push down buttons:	9](#_toc162477367)
+[4. Changing the Lux value based on input from push down buttons:](#_toc162477367)
 
-[5. Controlling the stepper motor based on temperature:	12](#_toc162477368)
+[5. Controlling the stepper motor based on temperature:](#_toc162477368)
 
-[a.BMP280 connection:	12](#_toc162477369)
+[a.BMP280 connection:](#_toc162477369)
 
-[b.Adding ULN2003:	13](#_toc162477370)
+[b.Adding ULN2003:](#_toc162477370)
 
-[c.Adding Stepper Motor:	14](#_toc162477371)
+[c.Adding Stepper Motor:](#_toc162477371)
 
-[6. Adding Nokia 5110 LCD:	16](#_toc162477372)
+[6. Adding Nokia 5110 LCD:](#_toc162477372)
 
-[7. Using MQTT for ThingSpeak:	18](#_toc162477373)
+[7. Using MQTT for ThingSpeak:](#_toc162477373)
 
 [**APPENDICES**	20](#_toc162477374)
 
-[Project Code: https://github.com/nsyed78/indi-project	20](#_toc162477375)
+[Project Code: https://github.com/nsyed78/indi-project](#_toc162477375)
 
-[Youtube Video:	20](#_toc162477376)
-
-[**SELF EVALUATION**	21](#_toc162477377)
+[Youtube Video:](#_toc162477376)
 
 
 
