@@ -481,7 +481,7 @@ except KeyboardInterrupt:
 ```
 # <a name="_toc162477374"></a>**APPENDICES**
 ### <a name="_toc162477376"></a>Youtube Video:  https://youtu.be/uc8oMEXdKZ0
-# <a name="_toc162477377"></a>**RESOURCES**
+### <a name="_toc162477377"></a>**Resources**
 1) Google
 2) ChatGPT for code improvement
 
