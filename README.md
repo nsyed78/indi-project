@@ -32,7 +32,7 @@
 
 [7. Using MQTT for ThingSpeak:](#_toc162477373)
 
-[7. Closing the loop:](#_toc162477376)
+[8. Closing the loop:](#_toc162477376)
 
 [**APPENDICES**	20](#_toc162477374)
 
